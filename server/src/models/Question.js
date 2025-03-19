@@ -3,7 +3,19 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Question extends Model {}
+  class Question extends Model {
+    static associate(models) {
+      Question.belongsTo(models.User, {
+        as: "creator",
+        foreignKey: "created_by",
+      });
+
+      Question.belongsTo(models.User, {
+        as: "editor",
+        foreignKey: "updated_by",
+      });
+    }
+  }
 
   Question.init(
     {
@@ -44,16 +56,6 @@ module.exports = (sequelize) => {
       timestamps: false,
     }
   );
-
-  Question.belongsTo(sequelize.models.User, {
-    as: "creator",
-    foreignKey: "created_by",
-  });
-
-  Question.belongsTo(sequelize.models.User, {
-    as: "editor",
-    foreignKey: "updated_by",
-  });
 
   return Question;
 };

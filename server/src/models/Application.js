@@ -3,7 +3,19 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Application extends Model {}
+  class Application extends Model {
+    static associate(models) {
+      Application.belongsTo(models.User, {
+        as: "creator",
+        foreignKey: "user_id",
+      });
+
+      Application.belongsTo(models.User, {
+        as: "reviewer",
+        foreignKey: "reviewer_id",
+      });
+    }
+  }
 
   Application.init(
     {
@@ -49,16 +61,6 @@ module.exports = (sequelize) => {
       timestamps: false,
     }
   );
-
-  Application.belongsTo(sequelize.models.User, {
-    as: "creator",
-    foreignKey: "user_id",
-  });
-
-  Application.belongsTo(sequelize.models.User, {
-    as: "reviewer",
-    foreignKey: "reviewer_id",
-  });
 
   return Application;
 };

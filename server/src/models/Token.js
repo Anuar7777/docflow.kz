@@ -3,16 +3,25 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Token extends Model {}
+  class Token extends Model {
+    static associate(models) {
+      Token.belongsTo(models.User, {
+        as: "owner",
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+      });
+    }
+  }
 
   Token.init(
     {
       user_id: {
         type: DataTypes.UUID,
+        primaryKey: true,
         allowNull: false,
       },
       refresh_token: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },
@@ -24,11 +33,6 @@ module.exports = (sequelize) => {
       timestamps: false,
     }
   );
-
-  Token.belongsTo(sequelize.models.User, {
-    as: "owner",
-    foreignKey: "user_id",
-  });
 
   return Token;
 };

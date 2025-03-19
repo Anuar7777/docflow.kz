@@ -1,6 +1,8 @@
-const express = require("express");
-const { body } = require("express-validator");
+const { Router } = require("express");
+const authRoutes = require("./auth-router.js");
 
-const router = express.Router();
+const router = Router();
+
+router.use("/auth", authRoutes);
 
 module.exports = router;

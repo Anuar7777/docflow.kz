@@ -5,6 +5,7 @@ module.exports = {
     await queryInterface.createTable("tokens", {
       user_id: {
         type: Sequelize.UUID,
+        primaryKey: true,
         allowNull: false,
         references: {
           model: "users",
@@ -14,7 +15,7 @@ module.exports = {
         onDelete: "CASCADE",
       },
       refresh_token: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
     });

@@ -3,7 +3,19 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Notification extends Model {}
+  class Notification extends Model {
+    static associate(models) {
+      Notification.belongsTo(models.User, {
+        as: "recipient",
+        foreignKey: "user_id",
+      });
+
+      Notification.belongsTo(models.User, {
+        as: "creator",
+        foreignKey: "created_by",
+      });
+    }
+  }
 
   Notification.init(
     {
@@ -45,16 +57,6 @@ module.exports = (sequelize) => {
       timestamps: false,
     }
   );
-
-  Notification.belongsTo(sequelize.models.User, {
-    as: "recipient",
-    foreignKey: "user_id",
-  });
-
-  Notification.belongsTo(sequelize.models.User, {
-    as: "creator",
-    foreignKey: "created_by",
-  });
 
   return Notification;
 };

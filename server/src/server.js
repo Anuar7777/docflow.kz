@@ -1,13 +1,24 @@
 require("dotenv").config();
 
 const express = require("express");
-const app = express();
+const cookieParser = require("cookie-parser");
+const router = require("./routes/index");
+
 const PORT = process.env.PORT;
+const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.json());
+app.use(cookieParser());
+app.use("/api", router);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+const start = async () => {
+  try {
+    app.listen(PORT, () => {
+      console.log(`The server is running at ${process.env.API_URL}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();

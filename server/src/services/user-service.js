@@ -44,6 +44,29 @@ class UserService {
       user: userDto,
     };
   }
+
+  async signIn(email, password) {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      throw ApiError.BadRequest("Пользователь не зарегистрирован");
+    }
+
+    const isPassEquals = await bcrypt.compare(password, user.password);
+
+    if (!isPassEquals) {
+      throw ApiError.BadRequest("Неверный email или пароль");
+    }
+
+    const userDto = new UserDto(user);
+    const tokens = TokenService.generateToken({ ...userDto });
+    await TokenService.saveToken(userDto.user_id, tokens.refresh_token);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
+  }
 }
 
 module.exports = new UserService();

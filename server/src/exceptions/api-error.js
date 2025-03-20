@@ -12,6 +12,14 @@ class ApiError extends Error {
   static BadRequest(message, errors = []) {
     return new ApiError(400, message, errors);
   }
+
+  static Forbidden() {
+    return new ApiError(401, "Доступ запрещен");
+  }
+
+  static NotFound(message = "Ресурс не найден") {
+    return new ApiError(404, message);
+  }
 }
 
 module.exports = ApiError;

@@ -42,7 +42,18 @@ class UserController {
     }
   }
 
-  async signOut(req, res, next) {}
+  async signOut(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+
+      const token = await UserService.signOut(refreshToken);
+      res.clearCookie("refreshToken");
+
+      return res.json(token);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async activate(req, res, next) {}
 

@@ -68,6 +68,12 @@ class UserService {
     };
   }
 
+  async signOut(refresh_token) {
+    const token = await TokenService.deleteToken(refresh_token);
+
+    return token;
+  }
+
   async getUserById(user_id) {
     const user = await User.findByPk(user_id);
 

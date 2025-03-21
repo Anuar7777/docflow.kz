@@ -89,6 +89,18 @@ class UserService {
 
     return users.map((user) => new UserDto(user));
   }
+
+  async deleteUser(user_id) {
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    await user.destroy();
+
+    return { message: "Пользователь успешно удален" };
+  }
 }
 
 module.exports = new UserService();

@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
 const MailService = require("./mail-service.js");
 const TokenService = require("./token-service.js");
-const UserDto = require("../dtos/user-dto.js");
+const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error.js");
 const { User } = require("../models");
 
@@ -66,6 +66,22 @@ class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async getUserById(user_id) {
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    return new UserDto(user);
+  }
+
+  async getAllUsers() {
+    const users = await User.findAll();
+
+    return users.map((user) => new UserDto(user));
   }
 }
 

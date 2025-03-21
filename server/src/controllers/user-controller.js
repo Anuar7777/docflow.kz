@@ -48,7 +48,26 @@ class UserController {
 
   async refresh(req, res, next) {}
 
-  async getUser(req, res) {}
+  async getUserById(req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const user = await UserService.getUserById(user_id);
+
+      return res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllUsers(req, res, next) {
+    try {
+      const users = await UserService.getAllUsers();
+
+      return res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserController();

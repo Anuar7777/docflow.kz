@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const { body } = require("express-validator");
-const userRoutes = require("./users-router.js");
+const UserRoutes = require("./users-router.js");
 
 const userController = require("../controllers/user-controller.js");
 
 const router = Router();
 
-router.use("/users", userRoutes);
+router.use("/users", UserRoutes);
 
 router.get("/", (req, res) => {
   res.send("The server is running");

@@ -55,7 +55,15 @@ class UserController {
     }
   }
 
-  async activate(req, res, next) {}
+  async activate(req, res, next) {
+    try {
+      const verification_token = req.params.link;
+      await UserService.activate(verification_token);
+      res.redirect(process.env.CLIENT_URL);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async refresh(req, res, next) {}
 

@@ -31,7 +31,7 @@ class UserService {
 
     await MailService.sendActivationMail(
       email,
-      `${process.env.API_URL}/api/auth/activate/${verification_token}`
+      `${process.env.API_URL}/api/activate/${verification_token}`
     );
 
     const userDto = new UserDto(user);
@@ -72,6 +72,20 @@ class UserService {
     const token = await TokenService.deleteToken(refresh_token);
 
     return token;
+  }
+
+  async activate(verification_token) {
+    const user = await User.findOne({ where: { verification_token } });
+
+    if (!user) {
+      throw ApiError.BadRequest("Неправильная или истекшая ссылка активации");
+    }
+
+    user.status = "verified";
+    user.verification_token = null;
+    user.updated_at = Date.now();
+
+    await user.save();
   }
 
   async getUserById(user_id) {

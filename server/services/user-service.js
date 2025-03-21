@@ -115,6 +115,33 @@ class UserService {
 
     return { message: "Пользователь успешно удален" };
   }
+
+  async updateUserRole(user_id, newRole) {
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    if (user.status !== "verified") {
+      throw ApiError.BadRequest(
+        "Нельзя сменить роль неактивированного пользователя"
+      );
+    }
+
+    const validRoles = ["applicant", "reviewer", "admin"];
+
+    if (!validRoles.includes(newRole)) {
+      throw ApiError.BadRequest("Некорректная роль");
+    }
+
+    user.role = newRole;
+    await user.save;
+
+    return {
+      message: `Роль ${user.email} обновлена до ${newRole}`,
+    };
+  }
 }
 
 module.exports = new UserService();

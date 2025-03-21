@@ -99,6 +99,19 @@ class UserController {
       next(error);
     }
   }
+
+  async updateUserRole(req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const { role } = req.body;
+
+      const result = await UserService.updateUserRole(user_id, role);
+
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserController();

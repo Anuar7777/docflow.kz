@@ -136,7 +136,7 @@ class UserService {
     }
 
     user.role = newRole;
-    await user.save;
+    await user.save();
 
     return {
       message: `Роль ${user.email} обновлена до ${newRole}`,

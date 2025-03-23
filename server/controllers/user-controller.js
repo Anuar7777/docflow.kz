@@ -70,6 +70,11 @@ class UserController {
   async getUserById(req, res, next) {
     try {
       const user_id = req.params.id;
+
+      if (req.user.user_id !== user_id && req.user.role !== "admin") {
+        throw ApiError.Forbidden();
+      }
+
       const user = await UserService.getUserById(user_id);
 
       return res.json(user);

@@ -142,6 +142,40 @@ class UserService {
       message: `Роль ${user.email} обновлена до ${newRole}`,
     };
   }
+
+  async blockUser(user_id) {
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    if (user.status === "pending") {
+      throw ApiError.BadRequest("Пользователь не верифицирован");
+    }
+
+    user.status = "blocked";
+    user.save();
+
+    return { message: `Пользователь ${user.email} заблокирован` };
+  }
+
+  async unblockUser(user_id) {
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    if (user.status === "pending") {
+      throw ApiError.BadRequest("Пользователь не верифицирован");
+    }
+
+    user.status = "verified";
+    user.save();
+
+    return { message: `Пользователь ${user.email} разблокирован` };
+  }
 }
 
 module.exports = new UserService();

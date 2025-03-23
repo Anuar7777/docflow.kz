@@ -117,6 +117,28 @@ class UserController {
       next(error);
     }
   }
+
+  async blockUser(req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const result = await UserService.blockUser(user_id);
+
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async unblockUser(req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const result = await UserService.unblockUser(user_id);
+
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserController();

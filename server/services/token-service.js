@@ -18,6 +18,25 @@ class TokenService {
     };
   }
 
+  validateAccessToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async saveToken(user_id, refresh_token) {
     const tokenData = await Token.findOne({ where: { user_id } });
 
@@ -29,6 +48,11 @@ class TokenService {
     const token = await Token.create({ user_id, refresh_token });
 
     return token;
+  }
+
+  async findToken(token) {
+    const tokenData = await Token.findOne({ where: { refresh_token: token } });
+    return tokenData;
   }
 
   async deleteToken(refresh_token) {

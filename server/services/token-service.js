@@ -38,7 +38,8 @@ class TokenService {
   }
 
   async saveToken(user_id, refresh_token) {
-    const tokenData = await Token.findOne({ where: { user_id } });
+    console.log(user_id);
+    const tokenData = await Token.findByPk(user_id);
 
     if (tokenData) {
       tokenData.refresh_token = refresh_token;
@@ -50,8 +51,12 @@ class TokenService {
     return token;
   }
 
-  async findToken(token) {
-    const tokenData = await Token.findOne({ where: { refresh_token: token } });
+  async findToken(refresh_token) {
+    if (!refresh_token) {
+      throw ApiError.BadRequest("Refresh токен отсутствует");
+    }
+
+    const tokenData = await Token.findOne({ where: { refresh_token } });
     return tokenData;
   }
 

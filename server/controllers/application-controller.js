@@ -1,3 +1,4 @@
+const ApiError = require("../exceptions/api-error.js");
 const ApplicationService = require("../services/application-service.js");
 
 class ApplicationController {
@@ -44,6 +45,13 @@ class ApplicationController {
       const application = await ApplicationService.getApplicationById(
         application_id
       );
+
+      if (
+        application.user_id !== req.user.user_id &&
+        req.user.role === "applicant"
+      ) {
+        throw ApiError.Forbidden();
+      }
 
       return res.json(application);
     } catch (error) {

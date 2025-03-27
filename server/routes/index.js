@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { body } = require("express-validator");
+const { isAuth } = require("../middlewares");
 const UserRoutes = require("./users-router.js");
 const QuestionRoutes = require("./questions-router.js");
 const ApplicationRoutes = require("./applications-router.js");
@@ -21,7 +22,7 @@ router.post(
   UserController.signUp
 );
 router.post("/login", UserController.signIn);
-router.post("/logout", UserController.signOut);
+router.post("/logout", isAuth, UserController.signOut);
 router.get("/activate/:link", UserController.activate);
 router.get("/refresh", UserController.refresh);
 

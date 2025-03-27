@@ -109,11 +109,15 @@ class UserController {
 
   async deleteUser(req, res, next) {
     try {
-      const id = req.params.id;
+      const user_id = req.params.id;
 
-      const userData = await UserService.deleteUser(id);
+      if (req.user.user_id !== user_id) {
+        throw ApiError.Forbidden();
+      }
 
-      return res.json(userData);
+      const result = await UserService.deleteUser(user_id);
+
+      return res.json(result);
     } catch (error) {
       next(error);
     }

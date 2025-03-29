@@ -17,8 +17,10 @@ router.get("/", (req, res) => {
 });
 router.post(
   "/register",
-  body("email").isEmail(),
-  body("password").isLength({ min: 3, max: 32 }),
+  body("email").isEmail().withMessage("Некорректный email"),
+  body("password")
+    .isLength({ min: 3, max: 32 })
+    .withMessage("Пароль должен быть от 3 до 32 символов"),
   UserController.signUp
 );
 router.post("/login", UserController.signIn);

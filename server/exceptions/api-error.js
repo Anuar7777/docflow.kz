@@ -14,7 +14,7 @@ class ApiError extends Error {
   }
 
   static Forbidden() {
-    return new ApiError(401, "Доступ запрещен");
+    return new ApiError(403, "Доступ запрещен");
   }
 
   static NotFound(message = "Ресурс не найден") {

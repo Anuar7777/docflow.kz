@@ -5,6 +5,7 @@ const TokenService = require("./token-service.js");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error.js");
 const { User } = require("../models");
+const { isUUID } = require("../utils/validators.js");
 
 class UserService {
   async signUp(email, password) {
@@ -113,6 +114,10 @@ class UserService {
   }
 
   async getUserById(user_id) {
+    if (!isUUID(user_id)) {
+      throw ApiError.BadRequest("Передан некорректный ID (не UUID)");
+    }
+
     const user = await User.findByPk(user_id);
 
     if (!user) {
@@ -153,7 +158,7 @@ class UserService {
       );
     }
 
-    const validRoles = ["applicant", "reviewer", "admin"];
+    const validRoles = ["applicant", "reviewer"];
 
     if (!validRoles.includes(newRole)) {
       throw ApiError.BadRequest("Некорректная роль");

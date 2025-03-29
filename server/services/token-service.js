@@ -38,7 +38,6 @@ class TokenService {
   }
 
   async saveToken(user_id, refresh_token) {
-    console.log(user_id);
     const tokenData = await Token.findByPk(user_id);
 
     if (tokenData) {

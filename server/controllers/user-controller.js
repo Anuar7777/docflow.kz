@@ -20,7 +20,7 @@ class UserController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
-      return res.json(userData);
+      return res.status(201).json(userData);
     } catch (error) {
       next(error);
     }

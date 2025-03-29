@@ -13,13 +13,13 @@ router.patch(
   checkRole(["admin"]),
   UserController.updateUserRole
 );
-router.post(
+router.put(
   "/:id/block",
   isAuth,
   checkRole(["admin"]),
   UserController.blockUser
 );
-router.post(
+router.put(
   "/:id/unblock",
   isAuth,
   checkRole(["admin"]),

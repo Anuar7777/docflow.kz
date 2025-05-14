@@ -1,0 +1,21 @@
+.input {
+  display: flex;
+  padding: 15px 25px;
+  align-items: center;
+  border: 1px solid #000;
+  transition: 0.2s;
+  border-radius: 5px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #ff9900;
+}
+
+.medium {
+  width: 70%;
+}
+
+.inputRow {
+  width: 49%;
+}

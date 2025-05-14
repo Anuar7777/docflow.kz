@@ -1,0 +1,14 @@
+.authSection {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.authLogo {
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  height: 100%;
+}
